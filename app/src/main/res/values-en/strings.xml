@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stops_history_title">Stops history</string>
+    <string name="back_button">Back</string>
+    <string name="delete_history">Delete history</string>
+    <string name="delete_history_confirmation">Do you want to delete your history?</string>
+    <string name="confirmation">Ok</string>
+    <string name="cancelation">Cancel</string>
+    <string name="map_button">Map</string>
+    <string name="edit_button">Edit</string>
+    <string name="detected_networks">Detected networks</string>
+    <string name="save_location">Save location</string>
+    <string name="deleted_history_toast">History was cleared</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="no_location_detected">No location detected</string>
+    <string name="number_of_times">Nº of times</string>
+    <string name="date_string">Date</string>
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stops_history_title">Historial de paradas</string>
+    <string name="back_button">Volver</string>
+    <string name="delete_history">Borrar historial</string>
+    <string name="delete_history_confirmation">¿Desea borrar el historial de paradas?</string>
+    <string name="confirmation">Ok</string>
+    <string name="cancelation">Cancelar</string>
+    <string name="map_button">Mapa</string>
+    <string name="edit_button">Editar</string>
+    <string name="detected_networks">Redes detectadas</string>
+    <string name="save_location">Guardar local.</string>
+    <string name="deleted_history_toast">El historial se ha borrado</string>
+    <string name="latitude">Latitud</string>
+    <string name="longitude">Longitud</string>
+    <string name="no_location_detected">No se ha detectado la localización</string>
+    <string name="number_of_times">Nº de veces</string>
+    <string name="date_string">Fecha</string>
+
+</resources>
