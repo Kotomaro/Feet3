@@ -23,6 +23,7 @@ public class Feet3DbHelper extends SQLiteOpenHelper {
         db.execSQL(Feet3DataSource.CREATE_TABLE_POSITION_SCRIPT);
         db.execSQL(Feet3DataSource.CREATE_TABLE_FINDINGS_SCRIPT);
         db.execSQL(Feet3DataSource.CREATE_TABLE_DEVICES_SCRIPT);
+        db.execSQL(Feet3DataSource.CREATE_TABLE_NETWORKS_SCRIPT);
 
     }
 

@@ -42,7 +42,7 @@ public class Feet3DataSource {
     public static final String TABLE_FINDINGS = "Findings";
     public static final String FINDINGS_COLUMN_LATITUDE = "Latitude";
     public static final String FINDINGS_COLUMN_LONGITUDE = "Longitude";
-    public static final String FINDINGS_COLUMN_DEVICE = "Device";
+   // removed public static final String FINDINGS_COLUMN_DEVICE = "Device";
     public static final String FINDINGS_COLUMN_DATE = "Date";
 
     //Table Devices
@@ -51,6 +51,15 @@ public class Feet3DataSource {
     public static final String DEVICES_COLUMN_MAC_ADDRESS = "Mac_address";
     public static final String DEVICES_COLUMN_NAME = "Name";
     public static final String DEVICES_COLUMN__TYPE = "Type"; // integer, 0 if wifi, 1 if mobile device
+
+    //Table Finding_Has_Devices
+    public static final String TABLE_NETWORKS = "Networks";
+    public static final String NETWORKS_COLUMN_LATITUDE = "Latitude";
+    public static final String NETWORKS_COLUMN_LONGITUDE = "Longitude";
+    public static final String NETWORKS_COLUMN_DATE = "Date";
+    public static final String NETWORKS_COLUMN_MAC_ADDRESS = "Mac_address";
+
+
 
     //Creation Scripts
 
@@ -69,12 +78,14 @@ public class Feet3DataSource {
             + TABLE_FINDINGS + "("
             + FINDINGS_COLUMN_LATITUDE + " real not null, "
             + FINDINGS_COLUMN_LONGITUDE + " real not null, "
-            + FINDINGS_COLUMN_DEVICE + " integer, "
+          //removed  + FINDINGS_COLUMN_DEVICE + " integer, "
             + FINDINGS_COLUMN_DATE + " text, "
-            + "primary key( " + FINDINGS_COLUMN_LATITUDE + ", " + FINDINGS_COLUMN_LONGITUDE + ", " + FINDINGS_COLUMN_DATE + ", " + FINDINGS_COLUMN_DEVICE +"), "
+            + "primary key( " + FINDINGS_COLUMN_LATITUDE + ", " + FINDINGS_COLUMN_LONGITUDE + ", " + FINDINGS_COLUMN_DATE + "), "
             + "foreign key(" + FINDINGS_COLUMN_LATITUDE + ") references " + TABLE_POSITION + "(" + POSITION_COLUMN_LATITUDE +"),"
-            + "foreign key(" + FINDINGS_COLUMN_LONGITUDE + ") references " + TABLE_POSITION + "(" + POSITION_COLUMN_LONGITUDE +"),"
-            + "foreign key(" + FINDINGS_COLUMN_DEVICE + ") references " + TABLE_DEVICES + "(" + DEVICES_COLUMN_MAC_ADDRESS +"));";
+            + "foreign key(" + FINDINGS_COLUMN_LONGITUDE + ") references " + TABLE_POSITION + "(" + POSITION_COLUMN_LONGITUDE +")"
+          //removed  + "foreign key(" + FINDINGS_COLUMN_DEVICE + ") references " + TABLE_DEVICES + "(" + DEVICES_COLUMN_MAC_ADDRESS +")"
+            + ")"
+            + ";";
 
     //Create table Devices
     public static final String CREATE_TABLE_DEVICES_SCRIPT ="create table if not exists "
@@ -84,6 +95,21 @@ public class Feet3DataSource {
             + DEVICES_COLUMN_NAME + " text, "
             + DEVICES_COLUMN__TYPE + " integer"
             + ");";
+
+    //Create table Networks
+    public static final String CREATE_TABLE_NETWORKS_SCRIPT = "create table if not exists "
+            + TABLE_NETWORKS + "("
+            + NETWORKS_COLUMN_LATITUDE + " real not null, "
+            + NETWORKS_COLUMN_LONGITUDE + " real not null, "
+            + NETWORKS_COLUMN_DATE + " text, "
+            + NETWORKS_COLUMN_MAC_ADDRESS + " text, "
+            + "primary key(" + NETWORKS_COLUMN_LATITUDE + ", " + NETWORKS_COLUMN_LONGITUDE + ", " + NETWORKS_COLUMN_DATE + ", " + NETWORKS_COLUMN_MAC_ADDRESS +"), "
+            + "foreign key(" + NETWORKS_COLUMN_LATITUDE + ") references " + TABLE_FINDINGS + "(" + FINDINGS_COLUMN_LATITUDE + "), "
+            + "foreign key(" + NETWORKS_COLUMN_LONGITUDE + ") references " + TABLE_FINDINGS + "(" + FINDINGS_COLUMN_LONGITUDE + "), "
+            + "foreign key(" + NETWORKS_COLUMN_DATE + ") references " + TABLE_FINDINGS + "(" + FINDINGS_COLUMN_DATE + "), "
+            + "foreign key(" + NETWORKS_COLUMN_MAC_ADDRESS + ") references " + TABLE_DEVICES + "(" + DEVICES_COLUMN_MAC_ADDRESS + ")"
+            +")"
+            + ";";
 
     //Default insertion script
     public static final String INSERT_FEET3DB_DEFAULTSCRIPT = "";//TODO
@@ -276,7 +302,8 @@ public class Feet3DataSource {
         String sqlQuery;
         Finding f = getFindingByDate(finding.getDate());
 
-        if(f.getDate() != null){//already exists, update (don't do anything)
+        if(f.getDate() != null && f.getDevice() == finding.getDevice()){
+            //if there is a finding with the same date AND device, it already exists, update (don't do anything)
 
         }else {
 
@@ -287,7 +314,7 @@ public class Feet3DataSource {
                     + " VALUES ("
                     + f.getLatitude() + ", "
                     + f.getLongitude() + ", "
-                    + "'" + f.getDevice() + "', "
+                    // + "'" + f.getDevice() + "', "
                     + "'" + f.getDate() + "');";
 
             database.execSQL(sqlQuery);
@@ -316,9 +343,9 @@ public class Feet3DataSource {
                 f.setLatitude(Double.parseDouble(cursor.getString(0)));
                 f.setLongitude(Double.parseDouble(cursor.getString(1)));
 
-                f.setDevice(Integer.parseInt(cursor.getString(2)));
+               // f.setDevice(Integer.parseInt(cursor.getString(2)));
 
-                f.setDate(cursor.getString(3));
+                f.setDate(cursor.getString(2));
                 list.add(f);
                 cursor.moveToNext();
             }
@@ -353,9 +380,9 @@ public class Feet3DataSource {
             f.setLongitude(Double.parseDouble(cursor.getString(1)));
 
             //if(!cursor.getString(2).equals("null"))
-            f.setDevice(Integer.parseInt(cursor.getString(2)));
+          //  f.setDevice(Integer.parseInt(cursor.getString(2)));
 
-            f.setDate(cursor.getString(3));
+            f.setDate(cursor.getString(2));
         }
 
         cursor.close();
@@ -377,9 +404,9 @@ public class Feet3DataSource {
                 f.setLatitude(Double.parseDouble(cursor.getString(0)));
                 f.setLongitude(Double.parseDouble(cursor.getString(1)));
 
-                f.setDevice(Integer.parseInt(cursor.getString(2)));
+             //   f.setDevice(Integer.parseInt(cursor.getString(2)));
 
-                f.setDate(cursor.getString(3));
+                f.setDate(cursor.getString(2));
 
 
                 list.add(f);
@@ -454,51 +481,97 @@ public class Feet3DataSource {
 
     }
 
-    public void insertFindingDevices(Finding finding, List<Device> devices){
+
+    public void insertFindingWithDevices(Finding finding, List<Device> devices){
+
+        System.out.println("insertando findings con sus devices");
+        insertFinding(finding);
 
         for(Device d: devices){
-            finding.setDevice(d.getId());
-            insertFinding(finding);
             insertDevice(d);
-            System.out.println("insertado " + d.getName());
+            insertNetwork(finding, d);
+            System.out.println("insertado finding con device id: " + finding.getDevice()); //todo remove device id
         }
 
 
     }
 
+
     public List<Device> getDevicesByFinding(double latitude, double longitude, String date){
         List<Device> result = new ArrayList<>();
-        List<Integer> ids = new ArrayList<>();
-        String sqlQuery = "select " + FINDINGS_COLUMN_DEVICE + " from " + TABLE_FINDINGS
-                + " where " + FINDINGS_COLUMN_LATITUDE + " = " + latitude
-                + " and " + FINDINGS_COLUMN_LONGITUDE + " = " + longitude
-                + " and " + FINDINGS_COLUMN_DATE
+        List<String> macs = new ArrayList<>();
+        String sqlQuery = "select " + NETWORKS_COLUMN_MAC_ADDRESS + " from " + TABLE_NETWORKS
+                + " where " + NETWORKS_COLUMN_LATITUDE + " = " + latitude
+                + " and " + NETWORKS_COLUMN_LONGITUDE + " = " + longitude
+                + " and " + NETWORKS_COLUMN_DATE
                 + " = " + "'" + date + "'"
                 + ";";
 
-
+       // System.out.println("Encontrar device query: " + sqlQuery);
         Cursor cursor = database.rawQuery(sqlQuery, null);
         if(cursor.moveToFirst()) {
             while(cursor.isAfterLast() == false){//Get all the devices ids associated with that position and date
-                if(!cursor.getString(0).equals("null")  && !ids.contains(Integer.parseInt(cursor.getString(0)))){ //check if there are networks associated or not (null)
-                    ids.add(Integer.parseInt(cursor.getString(0)));
-                    cursor.moveToNext();
+                if(!cursor.getString(0).equals("0")){//&& !ids.contains(Integer.parseInt(cursor.getString(0)))
+                    //check if there are networks associated or not (null)
+                    //don't add the same network twice?
+                    macs.add(cursor.getString(0));
+
+
 
                 }
+                cursor.moveToNext();
             }
         }
+        System.out.println("**macs**: " + macs.size());
 
         //Find the devices by ids
-        for(int id: ids){
-           Device d = getDeviceById(id);
+        for(String mac: macs){
+           Device d = getDeviceByMac(mac);
 
             result.add(d);
         }
+
+       // System.out.println("Results** : " + result.get(0).getName());
 
         return result;
 
     }
 
+
+
+
+    public void insertNetwork(Finding finding, Device device){
+        //todo check if already in db
+        String sqlQuery;
+
+        sqlQuery = "select * from " + TABLE_NETWORKS
+                + " where "
+                + NETWORKS_COLUMN_LATITUDE + " = " + finding.getLatitude() + " and "
+                + NETWORKS_COLUMN_LONGITUDE + " = " + finding.getLongitude() + " and "
+                + NETWORKS_COLUMN_DATE + " = '" + finding.getDate() + "' and "
+                + NETWORKS_COLUMN_MAC_ADDRESS + " = '" + device.getMac_address() + "';";
+
+        //comprobar si existe
+        Cursor cursor = database.rawQuery(sqlQuery, null);
+        if(cursor!= null && !cursor.isAfterLast()){
+            System.out.println("aqui esta el problema");
+            System.out.println("sentencia: " + sqlQuery);
+
+            //already exists, do nothing
+        }else {
+
+            sqlQuery = "insert into " + TABLE_NETWORKS
+                    + " VALUES ("
+                    + finding.getLatitude() + ", "
+                    + finding.getLongitude() + ", "
+                    + "'" + finding.getDate() + "', "
+                    + "'" + device.getMac_address() + "');";
+
+            database.execSQL(sqlQuery);
+        }
+
+
+    }
 
 
     public void clearHistory(){
@@ -509,6 +582,9 @@ public class Feet3DataSource {
         database.execSQL(sqlQuery);
 
         sqlQuery = "delete from " + TABLE_DEVICES + ";";
+        database.execSQL(sqlQuery);
+
+        sqlQuery = "delete from " + TABLE_NETWORKS + ";";
         database.execSQL(sqlQuery);
 
 

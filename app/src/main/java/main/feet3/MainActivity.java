@@ -75,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 //todo actions when click on an item
                 //initiate activity positionInfo
 
-                /*
-                int pos = position+1;
-                Toast.makeText(MainActivity.this, Integer.toString(pos)+ " Clicked", Toast.LENGTH_LONG).show();
-                */
 
                 HashMap<String, String> item = (HashMap<String, String>) stops_history_listView.getItemAtPosition(position);
                 String date = item.get(ListViewAdapter.SECOND_COLUMN);//get the item from the list
@@ -128,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
                     //todo scan for wifi and add them
                     wifiManager.startScan();
+                    try {
+                        Thread.sleep(2000);//wait until wifi list gets populated
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                     List<Device> wifis = null;
                     try {
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                             //do all the inserts there?
                             System.out.println("Wifi " + i + ": " + wifis.get(i).getName());
                         }
-                        fDataSource.insertFindingDevices(f, wifis);
+                        fDataSource.insertFindingWithDevices(f, wifis);
                     }
 
 

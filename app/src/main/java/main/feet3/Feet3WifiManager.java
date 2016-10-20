@@ -44,7 +44,7 @@ public class Feet3WifiManager {
         //TODO permissions
         scanFinished = false;
         mWifiManager.startScan();
-        System.out.println("EMpieza el scan");
+        System.out.println("Empieza el scan");
 
 
     }

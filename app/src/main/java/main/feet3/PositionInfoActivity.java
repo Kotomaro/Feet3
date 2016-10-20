@@ -1,8 +1,11 @@
 package main.feet3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -57,6 +60,24 @@ public class PositionInfoActivity extends AppCompatActivity {
         stops_history_listView = (ListView) findViewById(R.id.posInfo_stopHistory_list);
         networks_history_listView = (ListView) findViewById(R.id.posInfo_networks_list);
 
+        //listview click function
+        stops_history_listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                //todo actions when click on an item
+                //initiate activity positionInfo
+
+
+                HashMap<String, String> item = (HashMap<String, String>) stops_history_listView.getItemAtPosition(position);
+                String date = item.get(ListViewAdapter.FIRST_COLUMN);//get the item from the list
+
+                populateNetworkList(date);
+
+
+            }
+        });
+
 
         //populate the lists
         populateStopHistoryList();
@@ -66,7 +87,7 @@ public class PositionInfoActivity extends AppCompatActivity {
         //cuando pulse un elemento del historial de paradas, buscar todas las wifis de esa parada y mostrarlas
         //por defecto poner las wifis encontradas en la fecha de esa parada
 
-        //todo Initialize the networks list with the most recent finding.
+
         //When another finding is clicked, repopulate network list with the ones of that finding.
 
 
@@ -105,13 +126,13 @@ public class PositionInfoActivity extends AppCompatActivity {
 
 
     private void populateNetworkList(String date) {
-        System.out.println("date: "+date);
+        networks_history_arrayList = new ArrayList<>(); //clear the list
 
         List<Device> deviceList;
 
 
         deviceList = fDataSource.getDevicesByFinding(position.getLatitude(), position.getLongitude(), date);
-        System.out.println("Pasa de getdevicesByfinding, tamaño de lista: "+deviceList.size());
+       // System.out.println("Pasa de getdevicesByfinding, tamaño de lista: "+deviceList.size());
 
         for(Device d: deviceList){
             System.out.println("Iterando devices");
