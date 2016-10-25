@@ -64,7 +64,7 @@ public class Feet3LocationManager extends FragmentActivity implements
     }
 
 
-    public void startConnection() {
+    private void startConnection() {
         mGoogleApiClient.connect();
     }
 
@@ -168,6 +168,20 @@ public class Feet3LocationManager extends FragmentActivity implements
         } else {
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
+
+    }
+
+
+    protected void onPause(){
+
+        stopConnection();
+
+
+    }
+
+    protected void onResume(){
+        startConnection();
+
 
     }
 

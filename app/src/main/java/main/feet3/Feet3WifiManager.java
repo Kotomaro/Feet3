@@ -17,12 +17,12 @@ import java.util.List;
  */
 public class Feet3WifiManager {
 
-    WifiManager mWifiManager;
-    List<ScanResult> wifiScanList;
-    WifiScanReceiver wifiReceiver;
-    List<Device> resultsList;
-    Activity activity;
-    Boolean scanFinished;
+   private WifiManager mWifiManager;
+   private List<ScanResult> wifiScanList;
+   private WifiScanReceiver wifiReceiver;
+   private List<Device> resultsList;
+   private Activity activity;
+   private Boolean scanFinished;
 
 
 
@@ -52,6 +52,7 @@ public class Feet3WifiManager {
     protected void onPause(){
         //todo check if necessary
         activity.unregisterReceiver(wifiReceiver);
+
 
     }
 
@@ -87,5 +88,9 @@ public class Feet3WifiManager {
         }
 
         ;
+    }
+
+    public boolean isScanFinished(){
+        return scanFinished;
     }
 }

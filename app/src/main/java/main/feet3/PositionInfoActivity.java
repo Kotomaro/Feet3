@@ -135,14 +135,14 @@ public class PositionInfoActivity extends AppCompatActivity {
        // System.out.println("Pasa de getdevicesByfinding, tamaño de lista: "+deviceList.size());
 
         for(Device d: deviceList){
-            System.out.println("Iterando devices");
+          //  System.out.println("Iterando devices");
             HashMap<String, String> temp = new HashMap<>();
             temp.put(ListViewAdapter.FIRST_COLUMN, d.getName());
-            System.out.println("Nombre de device: " +d.getName());
+        //    System.out.println("Nombre de device: " +d.getName());
             temp.put(ListViewAdapter.SECOND_COLUMN, d.getMac_address());
             networks_history_arrayList.add(temp);
         }
-        System.out.println("Salgo de la iteracion");
+       // System.out.println("Salgo de la iteracion");
         ListViewAdapter adapter = new ListViewAdapter(this, networks_history_arrayList);
         networks_history_listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

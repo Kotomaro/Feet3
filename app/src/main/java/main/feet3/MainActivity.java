@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Feet3LocationManager fLocationManager;
     private Feet3DataSource fDataSource;
     private Feet3WifiManager wifiManager;
+    private Feet3ActivityRecognizeManager activityManager;
     Context context;
 
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         fLocationManager = new Feet3LocationManager(this.getApplicationContext(), this);
         fDataSource = Feet3DataSource.getInstance(this);
         wifiManager = new Feet3WifiManager(this);
+        activityManager = new Feet3ActivityRecognizeManager(this.getApplicationContext(), this);
 
         context = getApplicationContext()  ;
 
@@ -99,63 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Position position = fLocationManager.getCurrentPosition();
-                if (position == null){
-
-                    Toast.makeText(MainActivity.this, R.string.no_location_detected, Toast.LENGTH_SHORT).show();
-
-                }else {
-
-                    Finding f = new Finding();
-
-
-                    f.setLatitude(position.getLatitude());
-                    f.setLongitude(position.getLongitude());
-
-                    Calendar c = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy, hh;mm a");
-                    String date = sdf.format(c.getTime());
-
-                    f.setDate(date);
-
-
-
-                    fDataSource.insertPosition(position);
-
-                    //todo scan for wifi and add them
-                    wifiManager.startScan();
-                    try {
-                        Thread.sleep(2000);//wait until wifi list gets populated
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    List<Device> wifis = null;
-                    try {
-                        wifis = wifiManager.getWifiList();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(wifis == null || wifis.size() == 0){
-                        ; //inserting finding without wifis
-                        System.out.println("No wifi detected");
-                        fDataSource.insertFinding(f);
-                    }else {
-                        //inserting a finding for each wifi detected
-                        System.out.println("tamaño de wifis: " + wifis.size());
-                        for (int i = 0; i < wifis.size(); i++) {
-                            //todo how to associate findings with devices?
-                            //maybe create a method on datasource with position and list of devices and
-                            //do all the inserts there?
-                            System.out.println("Wifi " + i + ": " + wifis.get(i).getName());
-                        }
-                        fDataSource.insertFindingWithDevices(f, wifis);
-                    }
-
-
-                    populateList();
-                }
+                registerStop();
 
             }
         });
@@ -175,15 +121,82 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onPause(){
         wifiManager.onPause();
+        fLocationManager.onPause();
+      //  activityManager.onPause();
         super.onPause();
 
     }
 
     protected void onResume(){
         wifiManager.onResume();
+        fLocationManager.onResume();
+       // activityManager.onResume();
+        populateList();
         super.onResume();
     }
 
+    public void registerStop(){
+        Position position = fLocationManager.getCurrentPosition();
+        if (position == null){
+            Toast.makeText(MainActivity.this, R.string.no_location_detected, Toast.LENGTH_SHORT).show();
+        }else {
+            Finding f = new Finding();
+
+            f.setLatitude(position.getLatitude());
+            f.setLongitude(position.getLongitude());
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy, hh;mm a");
+            String date = sdf.format(c.getTime());
+
+            f.setDate(date);
+
+            fDataSource.insertPosition(position);
+
+            //Wifi handling
+            wifiManager.startScan();
+            try {
+                Thread.sleep(2000);//wait until wifi list gets populated
+                //todo check sleep time
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            List<Device> wifis = null;
+            try {
+                wifis = wifiManager.getWifiList();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(wifis == null || wifis.size() == 0){
+
+                System.out.println("No wifi detected");
+                fDataSource.insertFinding(f);
+            }else {
+                //inserting a finding for each wifi detected
+                System.out.println("tamaño de wifis: " + wifis.size());
+                for (int i = 0; i < wifis.size(); i++) {
+
+                    System.out.println("Wifi " + i + ": " + wifis.get(i).getName());
+                }
+                fDataSource.insertFindingWithDevices(f, wifis);
+            }
+
+
+            runOnUiThread(new Runnable() {//needed to be on main thread to modify UI
+                @Override
+                public void run() {
+
+                //stuff that updates ui
+                 populateList();//todo populate here? if its in background what happens? maybe put it on onResume
+
+                }
+            });
+
+        }
+
+    }
 
 
     private void populateList(){
