@@ -477,6 +477,19 @@ public class Feet3DataSource {
         cursor.close();
         return d;
 
+    }
+
+    public void updateDeviceName(String name, String mac_address, String newName){
+        String sqlQuery;
+
+
+        sqlQuery = "update " + TABLE_DEVICES
+                + " set " + DEVICES_COLUMN_NAME + " = '" + newName + "'"
+                + " where " + DEVICES_COLUMN_NAME + " = '" + name + "'"
+                + " and " + DEVICES_COLUMN_MAC_ADDRESS + " = '" + mac_address +"'"
+                + ";";
+        System.out.println("sqlquery del update: " + sqlQuery);
+        database.execSQL(sqlQuery);
 
 
     }
@@ -554,8 +567,7 @@ public class Feet3DataSource {
         //comprobar si existe
         Cursor cursor = database.rawQuery(sqlQuery, null);
         if(cursor!= null && !cursor.isAfterLast()){
-            System.out.println("aqui esta el problema");
-            System.out.println("sentencia: " + sqlQuery);
+          ;
 
             //already exists, do nothing
         }else {

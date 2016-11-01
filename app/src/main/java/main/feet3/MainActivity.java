@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, String> item = (HashMap<String, String>) stops_history_listView.getItemAtPosition(position);
                 String date = item.get(ListViewAdapter.SECOND_COLUMN);//get the item from the list
-              //  date = date.substring(7); // remove unnecessary chars
+
 
                 Intent intent = new Intent(context, PositionInfoActivity.class);
                 intent.putExtra("date", date);//get

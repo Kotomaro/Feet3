@@ -3,6 +3,7 @@ package main.feet3;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,9 +11,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Feet3DataSource feet3DataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        feet3DataSource = Feet3DataSource.getInstance(this);
     }
 
 
@@ -38,9 +43,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        List<Finding> findingList = feet3DataSource.getAllFindings();
+        Finding position = findingList.get(0);
+        for(Finding finding: findingList){
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(finding.getLatitude(), finding.getLongitude()))
+                    .title(finding.getDate()));
+        }
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(position.getLatitude(), position.getLongitude()));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
+
     }
 }

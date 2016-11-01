@@ -61,8 +61,7 @@ public class PositionInfoActivity extends AppCompatActivity {
         networks_history_listView = (ListView) findViewById(R.id.posInfo_networks_list);
 
         //listview click function
-        stops_history_listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        stops_history_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 //todo actions when click on an item
@@ -70,7 +69,7 @@ public class PositionInfoActivity extends AppCompatActivity {
 
 
                 HashMap<String, String> item = (HashMap<String, String>) stops_history_listView.getItemAtPosition(position);
-                String date = item.get(ListViewAdapter.FIRST_COLUMN);//get the item from the list
+                date = item.get(ListViewAdapter.FIRST_COLUMN);//get the item from the list
 
                 populateNetworkList(date);
 
@@ -79,19 +78,46 @@ public class PositionInfoActivity extends AppCompatActivity {
         });
 
 
+        //map button function
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MapsActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
         //populate the lists
         populateStopHistoryList();
         populateNetworkList(date);
 
 
-        //cuando pulse un elemento del historial de paradas, buscar todas las wifis de esa parada y mostrarlas
-        //por defecto poner las wifis encontradas en la fecha de esa parada
+        networks_history_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                //todo actions when click on an item
+                //initiate activity positionInfo
 
 
-        //When another finding is clicked, repopulate network list with the ones of that finding.
+                 HashMap<String, String> item = (HashMap<String, String>) networks_history_listView.getItemAtPosition(position);
+                String name = item.get(ListViewAdapter.FIRST_COLUMN);
+                String mac_address = item.get(ListViewAdapter.SECOND_COLUMN);//get the item from the list
+               // Device device = fDataSource.getDeviceByMac(mac_address);
 
-
+                Intent intent = new Intent(context, EditNetworkActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("mac_address", mac_address);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
+
+
+
+
+
+
 
 
     private void populateStopHistoryList() {
@@ -148,6 +174,11 @@ public class PositionInfoActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        populateNetworkList(date);
+    };
 }
 
 

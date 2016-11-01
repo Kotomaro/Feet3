@@ -16,5 +16,8 @@
     <string name="no_location_detected">No se ha detectado la localización</string>
     <string name="number_of_times">Nº de veces</string>
     <string name="date_string">Fecha</string>
+    <string name="name_string">Nombre</string>
+    <string name="mac_address_string">Dirección Mac</string>
+    <string name="save_String">Guardar</string>
 
 </resources>
