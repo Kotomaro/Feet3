@@ -23,6 +23,7 @@ public class Feet3DataSource {
 
     //Useful stuff
     public enum DeviceType{WIFI, MOBILE};
+    public static final int MIN_DISTANCE = 5;//minimum distance to consider two positions the same
 
     //BD metadata
     public static final String DATABASE_NAME = "Feet3DB.bd";
@@ -147,7 +148,7 @@ public class Feet3DataSource {
         String sqlQuery;
         Position p = getPosition(position.getLatitude(), position.getLongitude());
 
-
+        //todo delete number of times from position?
        //check if already exists
         if(p.getNum() != 0){
             //update database entry

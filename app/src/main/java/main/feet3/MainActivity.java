@@ -151,6 +151,29 @@ public class MainActivity extends AppCompatActivity {
 
             f.setDate(date);
 
+            //check if location is close to an already registered one and merge
+            ArrayList<Position> positions =  fDataSource.getAllPositions();
+
+            Location location1, location2;
+            location1 = new Location("");//initialize thefirst location to the new location detected
+            location1.setLatitude(position.getLatitude());
+            location1.setLongitude(position.getLongitude());
+            location2 = new Location("");
+
+            for(Position p: positions){//compare new location to stored location to see if they are close
+                location2.setLatitude(p.getLatitude());
+                location2.setLongitude(p.getLongitude());
+                if(location1.distanceTo(location2) < Feet3DataSource.MIN_DISTANCE){
+                    //they are close enought, consider them the same
+                    position=p;
+                    break;
+                }
+                //else introduce the new position (do nothing)
+            }
+
+            //
+
+
             fDataSource.insertPosition(position);
 
             //Wifi handling
