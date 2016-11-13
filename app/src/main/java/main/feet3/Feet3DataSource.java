@@ -23,6 +23,7 @@ public class Feet3DataSource {
 
     //Useful stuff
     public enum DeviceType{WIFI, MOBILE};
+    public static final String PREF_NAME = "My_Prefs";
     public static final int MIN_DISTANCE = 5;//minimum distance to consider two positions the same
 
     //BD metadata
