@@ -2,6 +2,7 @@ package main.feet3;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -160,10 +161,14 @@ public class MainActivity extends AppCompatActivity {
             location1.setLongitude(position.getLongitude());
             location2 = new Location("");
 
+            SharedPreferences preferences = context.getSharedPreferences(Feet3DataSource.PREF_NAME, MODE_PRIVATE);
+
+
             for(Position p: positions){//compare new location to stored location to see if they are close
                 location2.setLatitude(p.getLatitude());
                 location2.setLongitude(p.getLongitude());
-                if(location1.distanceTo(location2) < Feet3DataSource.MIN_DISTANCE){
+                int min_distance = preferences.getInt("min_stop_distance", Feet3DataSource.MIN_DISTANCE);
+                if(location1.distanceTo(location2) < min_distance){
                     //they are close enought, consider them the same
                     position=p;
                     break;
