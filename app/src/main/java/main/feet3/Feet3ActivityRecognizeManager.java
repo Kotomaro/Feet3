@@ -6,6 +6,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +28,8 @@ import java.util.List;
 
 public class Feet3ActivityRecognizeManager extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    private int time = 1000 * 60 * 3; //time in miliseconds to request updates
+    private int defaultTime = 1000 * 60 * 3; //time in miliseconds to request updates (default time)
+    private int time; //time to request updates (will get drawn from sharedpreferences)
     private Context context;
     private Activity activity;
     private PendingIntent callbackIntent;
@@ -35,6 +37,7 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
 
     private static boolean stopped = false;
     private static boolean registered = false;
+    private static boolean moving = false;
 
     private static MainActivity mainActivity;
 
@@ -50,6 +53,9 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
         this.context = context;
         this.activity = activity;
         mainActivity = (MainActivity) activity;
+
+        SharedPreferences preferences = context.getSharedPreferences(Feet3DataSource.PREF_NAME, MODE_PRIVATE);
+        time = preferences.getInt("stop_detection_time", defaultTime);
 
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(ActivityRecognition.API)
@@ -132,7 +138,8 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
         for(DetectedActivity activity: activityList){
             if(activity.getType() == DetectedActivity.STILL && activity.getConfidence() >= 90){
                 if(stopped){//if we detect twice in a row being stopped, mark as stop
-                    //crear parada
+
+                    moving = false; //we are not moving
                     if(!registered) {//check if we already registered the stop. If not, register it
                         System.out.println("crear parada");
                         mainActivity.registerStop();
@@ -149,10 +156,14 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
 
            // System.out.println("toy parao, stopped: "+stopped);
         }else{
-                //the user is not stopped, so reset every variable
-                //todo maybe make two checks in a row before in case the user is using his phone
-                stopped = false;
-                registered = false;
+                if(moving = true) {//If we detected we were moving twice, we are moving, reset
+                    //the user is not stopped, so reset every variable
+                    //todo maybe make two checks in a row before in case the user is using his phone
+                    stopped = false;
+                    registered = false;
+                }else{//we detected movement once, set moving to true
+                    moving = true;
+                }
               //  System.out.println("no toy parao, stopped: "+stopped);
           //  System.out.println("Activity: " + activity.getType());
           //  System.out.println("Confidence: " + activity.getConfidence());
