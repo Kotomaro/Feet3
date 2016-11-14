@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,7 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
         GoogleApiClient.OnConnectionFailedListener {
     private int defaultTime = 1000 * 60 * 3; //time in miliseconds to request updates (default time)
     private int time; //time to request updates (will get drawn from sharedpreferences)
+    private int timeMilis; // time in miliseconds
     private Context context;
     private Activity activity;
     private PendingIntent callbackIntent;
@@ -54,9 +56,10 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
         this.activity = activity;
         mainActivity = (MainActivity) activity;
 
-        SharedPreferences preferences = context.getSharedPreferences(Feet3DataSource.PREF_NAME, MODE_PRIVATE);
-        time = preferences.getInt("stop_detection_time", defaultTime);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String aux = preferences.getString(context.getResources().getString(R.string.stop_detection_time), String.valueOf(defaultTime));
 
+        time = Integer.parseInt(aux);
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(ActivityRecognition.API)
                 .addConnectionCallbacks(this)
@@ -92,6 +95,9 @@ public class Feet3ActivityRecognizeManager extends AppCompatActivity implements 
         Intent intent = new Intent(context, ActivityRecognizedService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, time, pendingIntent);
+
+        System.out.println("TIempo del timer: " + time +", defaulttfimer: " + defaultTime);
+
 
        // System.out.println("On connected ");
     }

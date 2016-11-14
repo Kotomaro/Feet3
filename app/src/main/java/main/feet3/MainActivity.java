@@ -139,9 +139,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Intent intent = new Intent(context, Feet3Preferences.class);
 
-        startActivity(intent);
+        startActivityForResult(intent, 1);
         return true;
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            //activityManager.
+            System.out.println("activity result");
+        }
+    };
 
     protected void onPause(){
         wifiManager.onPause();
@@ -184,13 +191,18 @@ public class MainActivity extends AppCompatActivity {
             location1.setLongitude(position.getLongitude());
             location2 = new Location("");
 
-            SharedPreferences preferences = context.getSharedPreferences(Feet3DataSource.PREF_NAME, MODE_PRIVATE);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
             for(Position p: positions){//compare new location to stored location to see if they are close
                 location2.setLatitude(p.getLatitude());
                 location2.setLongitude(p.getLongitude());
-                int min_distance = preferences.getInt("min_stop_distance", Feet3DataSource.MIN_DISTANCE);
+                String aux = preferences.getString(getResources().getString(R.string.stop_detection_distance), String.valueOf(Feet3DataSource.MIN_DISTANCE));
+            
+                int min_distance = Integer.parseInt(aux);
+             //   System.out.println("key: "+ getResources().getString(R.string.stop_detection_distance));
+              //  System.out.println("Distancia minima:" + aux);
+
                 if(location1.distanceTo(location2) < min_distance){
                     //they are close enought, consider them the same
                     position=p;

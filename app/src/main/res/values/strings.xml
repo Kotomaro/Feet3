@@ -22,6 +22,8 @@
     <string name="save_String">Save</string>
     <string name="preferences_stop_detection_time_title">Stop detection time</string>
     <string name="preferences_stop_detection_distance_title">Stop detection distance</string>
+    <string name="stop_detection_time" translatable="false">stop_detection_time</string>
+    <string name="stop_detection_distance" translatable="false">stop_detection_distance</string>
 
 
 </resources>

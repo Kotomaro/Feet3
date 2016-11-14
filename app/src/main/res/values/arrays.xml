@@ -14,6 +14,18 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string-array name="stop_detection_time_millis">
+        <item>60000</item>
+        <item>120000</item>
+        <item>180000</item>
+        <item>240000</item>
+        <item>300000</item>
+        <item>360000</item>
+        <item>420000</item>
+        <item>480000</item>
+        <item>540000</item>
+        <item>600000</item>
+    </string-array>
 
     <string-array name="stop_detection_distance">
         <item>1</item>

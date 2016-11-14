@@ -25,6 +25,8 @@ public class Feet3DataSource {
     public enum DeviceType{WIFI, MOBILE};
     public static final String PREF_NAME = "My_Prefs";
     public static final int MIN_DISTANCE = 5;//minimum distance to consider two positions the same
+  //  public static final String STOP_DETECTION_TIME = "stop_detection_time";
+   //public static final String STOP_DETECTION_DISTANCE = "stop_detection_distance";
 
     //BD metadata
     public static final String DATABASE_NAME = "Feet3DB.bd";
