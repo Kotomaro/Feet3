@@ -20,6 +20,8 @@
     <string name="name_string">Name</string>
     <string name="mac_address_string">Mac Address</string>
     <string name="save_String">Save</string>
+    <string name="preferences_stop_detection_time_title">Stop detection time</string>
+    <string name="preferences_stop_detection_distance_title">Stop detection distance</string>
 
 
 </resources>

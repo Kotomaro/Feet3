@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        //Initialize settings values by default
+        PreferenceManager.setDefaultValues(this, R.xml.app_preferences, false);
+        //---
 
         setContentView(R.layout.activity_main);
 
@@ -112,12 +119,28 @@ public class MainActivity extends AppCompatActivity {
         delete_history_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 fDataSource.clearHistory();
                 populateList();
                 Toast.makeText(MainActivity.this, R.string.deleted_history_toast, Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.headermenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(context, Feet3Preferences.class);
+
+        startActivity(intent);
+        return true;
     }
 
     protected void onPause(){

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="6"
+        android:title="@string/preferences_stop_detection_time_title"
+        android:entries="@array/stop_detection_time"
+        android:entryValues="@array/stop_detection_time"
+        android:key="preference_stop_detection_time" />
+    <ListPreference
+        android:defaultValue="15"
+        android:title="@string/preferences_stop_detection_distance_title"
+        android:entries="@array/stop_detection_distance"
+        android:entryValues="@array/stop_detection_distance"
+        android:key="preference_stop_detection_distance" />
+
+
+</PreferenceScreen>

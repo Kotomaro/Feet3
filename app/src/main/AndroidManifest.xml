@@ -50,6 +50,7 @@
         <activity
             android:name=".EditNetworkActivity"
             android:theme="@style/Base.Theme.AppCompat.Dialog"/>
+        <activity android:name=".Feet3Preferences"/>
 
 
 

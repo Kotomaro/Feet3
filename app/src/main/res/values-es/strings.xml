@@ -19,5 +19,7 @@
     <string name="name_string">Nombre</string>
     <string name="mac_address_string">Dirección Mac</string>
     <string name="save_String">Guardar</string>
+    <string name="preferences_stop_detection_time_title">Tiempo de detección de parada</string>
+    <string name="preferences_stop_detection_distance_title">Distancia de detección de parada</string>
 
 </resources>
