@@ -171,16 +171,6 @@ public class MainActivity extends AppCompatActivity {
         if (position == null){
             Toast.makeText(MainActivity.this, R.string.no_location_detected, Toast.LENGTH_SHORT).show();
         }else {
-            Finding f = new Finding();
-
-            f.setLatitude(position.getLatitude());
-            f.setLongitude(position.getLongitude());
-
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy, hh;mm a");
-            String date = sdf.format(c.getTime());
-
-            f.setDate(date);
 
             //check if location is close to an already registered one and merge
             ArrayList<Position> positions =  fDataSource.getAllPositions();
@@ -198,20 +188,29 @@ public class MainActivity extends AppCompatActivity {
                 location2.setLatitude(p.getLatitude());
                 location2.setLongitude(p.getLongitude());
                 String aux = preferences.getString(getResources().getString(R.string.stop_detection_distance), String.valueOf(Feet3DataSource.MIN_DISTANCE));
-            
+
                 int min_distance = Integer.parseInt(aux);
              //   System.out.println("key: "+ getResources().getString(R.string.stop_detection_distance));
               //  System.out.println("Distancia minima:" + aux);
 
                 if(location1.distanceTo(location2) < min_distance){
-                    //they are close enought, consider them the same
+                    //they are close enough, consider them the same
                     position=p;
                     break;
                 }
                 //else introduce the new position (do nothing)
             }
 
-            //
+            Finding f = new Finding();
+
+            f.setLatitude(position.getLatitude());
+            f.setLongitude(position.getLongitude());
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy, hh;mm a");
+            String date = sdf.format(c.getTime());
+
+            f.setDate(date);
 
 
             fDataSource.insertPosition(position);

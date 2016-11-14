@@ -3,16 +3,16 @@
     <string-array name="prefs_lists_array" />
 
     <string-array name="stop_detection_time">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+        <item>1 min</item>
+        <item>2 min</item>
+        <item>3 min</item>
+        <item>4 min</item>
+        <item>5 min</item>
+        <item>6 min</item>
+        <item>7 min</item>
+        <item>8 min</item>
+        <item>9 min</item>
+        <item>10 min</item>
     </string-array>
     <string-array name="stop_detection_time_millis">
         <item>60000</item>
@@ -28,13 +28,13 @@
     </string-array>
 
     <string-array name="stop_detection_distance">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>30</item>
-        <item>40</item>
-        <item>50</item>
+        <item>1 m</item>
+        <item>5 m</item>
+        <item>10 m</item>
+        <item>15 m</item>
+        <item>20 m</item>
+        <item>30 m</item>
+        <item>40 m</item>
+        <item>50 m</item>
     </string-array>
 </resources>
