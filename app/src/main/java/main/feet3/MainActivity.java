@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView stops_history_listView;
     private ArrayList<HashMap<String, String>> list;
 
-
+    private  Finding f;
+    private List<Device> wifis;
 
     private Feet3LocationManager fLocationManager;
     private Feet3DataSource fDataSource;
@@ -153,16 +154,16 @@ public class MainActivity extends AppCompatActivity {
     };
 
     protected void onPause(){
-      //  wifiManager.onPause();
-     //   fLocationManager.onPause();
+        wifiManager.onPause();
+        fLocationManager.onPause();
       //  activityManager.onPause();
         super.onPause();
 
     }
 
     protected void onResume(){
-      //  wifiManager.onResume();
-     //   fLocationManager.onResume();
+        wifiManager.onResume();
+        fLocationManager.onResume();
        // activityManager.onResume();
         populateList();
         super.onResume();
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 //else introduce the new position (do nothing)
             }
 
-            Finding f = new Finding();
+            f = new Finding();
 
             f.setLatitude(position.getLatitude());
             f.setLongitude(position.getLongitude());
@@ -219,44 +220,60 @@ public class MainActivity extends AppCompatActivity {
 
             //Wifi handling
             wifiManager.startScan();
+            /*
             try {
                 Thread.sleep(2000);//wait until wifi list gets populated
                 //todo check sleep time
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            List<Device> wifis = null;
+            */
+            wifis = null;
             try {
                 wifis = wifiManager.getWifiList();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if(wifis == null || wifis.size() == 0){
+            new Thread(new Runnable(){//this operation is done in a thread, so while we wait
+                //for the list to populate, the UI is not frozen
+                public void run(){
+                    while(wifiManager.isScanFinished() == false){
+                        System.out.println("a dormir");
 
-                System.out.println("No wifi detected");
-                fDataSource.insertFinding(f);
-            }else {
-                //inserting a finding for each wifi detected
-                System.out.println("tamaño de wifis: " + wifis.size());
-                for (int i = 0; i < wifis.size(); i++) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(wifis == null || wifis.size() == 0){
 
-                    System.out.println("Wifi " + i + ": " + wifis.get(i).getName());
+                        System.out.println("No wifi detected");
+                        fDataSource.insertFinding(f);
+                    }else {
+                        //inserting a finding for each wifi detected
+                        System.out.println("tamaño de wifis: " + wifis.size());
+                        for (int i = 0; i < wifis.size(); i++) {
+
+                            System.out.println("Wifi " + i + ": " + wifis.get(i).getName());
+                        }
+                        fDataSource.insertFindingWithDevices(f, wifis);
+                    }
+
+
+                    runOnUiThread(new Runnable() {//needed to be on main thread to modify UI
+                        @Override
+                        public void run() {
+
+                            //stuff that updates ui
+                            populateList();//
+
+                        }
+                    });
                 }
-                fDataSource.insertFindingWithDevices(f, wifis);
-            }
+            }).start();
 
-
-            runOnUiThread(new Runnable() {//needed to be on main thread to modify UI
-                @Override
-                public void run() {
-
-                //stuff that updates ui
-                 populateList();//todo populate here? if its in background what happens? maybe put it on onResume
-
-                }
-            });
 
         }
 

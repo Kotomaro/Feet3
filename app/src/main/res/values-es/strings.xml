@@ -21,5 +21,6 @@
     <string name="save_String">Guardar</string>
     <string name="preferences_stop_detection_time_title">Tiempo de detección de parada</string>
     <string name="preferences_stop_detection_distance_title">Distancia de detección de parada</string>
+    <string name="Preferences_title">Preferencias</string>
 
 </resources>

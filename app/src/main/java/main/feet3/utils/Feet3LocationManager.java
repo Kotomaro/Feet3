@@ -174,14 +174,14 @@ public class Feet3LocationManager extends FragmentActivity implements
     }
 
 
-    protected void onPause(){
+    public void onPause(){
 
         stopConnection();
 
 
     }
 
-    protected void onResume(){
+    public void onResume(){
         startConnection();
 
 

@@ -51,14 +51,14 @@ public class Feet3WifiManager {
 
     }
 
-    protected void onPause(){
+    public void onPause(){
         //todo check if necessary
         activity.unregisterReceiver(wifiReceiver);
 
 
     }
 
-    protected void onResume(){
+    public void onResume(){
         activity.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));    }
 
 
@@ -67,7 +67,10 @@ public class Feet3WifiManager {
       //todo wait until the list gets populated
         resultsList = new ArrayList<>();
 
+
+
             if(wifiScanList != null) {
+
                 for (int i = 0; i < wifiScanList.size(); i++) {
                     Device d = new Device();
                     d.setName(wifiScanList.get(i).SSID);

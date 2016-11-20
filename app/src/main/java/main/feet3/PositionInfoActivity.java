@@ -66,7 +66,7 @@ public class PositionInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
                 //initiate activity positionInfo
-                view.setSelected(true);
+
 
                 HashMap<String, String> item = (HashMap<String, String>) stops_history_listView.getItemAtPosition(position);
                 date = item.get(ListViewAdapter.FIRST_COLUMN);//get the item from the list

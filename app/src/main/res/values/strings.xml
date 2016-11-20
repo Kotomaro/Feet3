@@ -24,6 +24,7 @@
     <string name="preferences_stop_detection_distance_title">Stop detection distance</string>
     <string name="stop_detection_time" translatable="false">stop_detection_time</string>
     <string name="stop_detection_distance" translatable="false">stop_detection_distance</string>
+    <string name="Preferences_title">Preferences</string>
 
 
 </resources>

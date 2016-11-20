@@ -21,5 +21,7 @@
     <string name="save_String">Save</string>
     <string name="preferences_stop_detection_time_title">Stop detection time</string>
     <string name="preferences_stop_detection_distance_title">Stop detection distance</string>
+    <string name="google_maps_key" translatable="false"></string>
+    <string name="Preferences_title">Preferences</string>
 
 </resources>
