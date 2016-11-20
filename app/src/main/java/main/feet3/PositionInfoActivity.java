@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import main.feet3.data.Feet3DataSource;
 
 public class PositionInfoActivity extends AppCompatActivity {
 

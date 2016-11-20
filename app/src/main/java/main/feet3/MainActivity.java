@@ -13,17 +13,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import main.feet3.data.Feet3DataSource;
+import main.feet3.utils.Feet3ActivityRecognizeManager;
+import main.feet3.utils.Feet3LocationManager;
+import main.feet3.utils.Feet3WifiManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -151,16 +153,16 @@ public class MainActivity extends AppCompatActivity {
     };
 
     protected void onPause(){
-        wifiManager.onPause();
-        fLocationManager.onPause();
+      //  wifiManager.onPause();
+     //   fLocationManager.onPause();
       //  activityManager.onPause();
         super.onPause();
 
     }
 
     protected void onResume(){
-        wifiManager.onResume();
-        fLocationManager.onResume();
+      //  wifiManager.onResume();
+     //   fLocationManager.onResume();
        // activityManager.onResume();
         populateList();
         super.onResume();

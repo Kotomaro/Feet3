@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import main.feet3.data.Feet3DataSource;
+
 public class EditNetworkActivity extends AppCompatActivity {
 
     private TextView title_name_textView, title_mac_address_textView, mac_address_textView;

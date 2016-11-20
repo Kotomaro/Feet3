@@ -1,4 +1,4 @@
-package main.feet3;
+package main.feet3.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,6 +22,9 @@ import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
 import java.util.List;
+
+import main.feet3.MainActivity;
+import main.feet3.R;
 
 /**
  * Created by D on 21/10/2016.

@@ -1,4 +1,4 @@
-package main.feet3;
+package main.feet3.data;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,10 +6,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import main.feet3.Device;
+import main.feet3.Finding;
+import main.feet3.Position;
 
 /**
  * Created by David on 28/06/2016.

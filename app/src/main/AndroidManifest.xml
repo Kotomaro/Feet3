@@ -39,10 +39,10 @@
 
         <activity android:name=".PositionInfoActivity" />
         <activity
-            android:name=".Feet3ActivityRecognizeManager"
+            android:name=".utils.Feet3ActivityRecognizeManager"
             android:label="ActivityRecognizion" />
 
-        <service android:name=".Feet3ActivityRecognizeManager$ActivityRecognizedService" />
+        <service android:name=".utils.Feet3ActivityRecognizeManager$ActivityRecognizedService" />
 
         <activity
             android:name=".MapsActivity"

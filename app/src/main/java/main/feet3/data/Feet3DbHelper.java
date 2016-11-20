@@ -1,4 +1,4 @@
-package main.feet3;
+package main.feet3.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

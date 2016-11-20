@@ -1,4 +1,4 @@
-package main.feet3;
+package main.feet3.utils;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import main.feet3.Device;
+import main.feet3.data.Feet3DataSource;
 
 /**
  * Created by David on 07/08/2016.

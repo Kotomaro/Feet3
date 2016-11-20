@@ -1,4 +1,4 @@
-package main.feet3;
+package main.feet3.utils;
 
 
 import android.Manifest;
@@ -19,6 +19,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import main.feet3.Position;
 
 /**
  * Created by David on 01/07/2016.
