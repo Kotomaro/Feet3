@@ -11,7 +11,7 @@
     <ListPreference
     android:defaultValue="15"
     android:title="@string/preferences_stop_detection_distance_title"
-    android:entries="@array/stop_detection_distance"
+    android:entries="@array/stop_detection_distance_meters"
     android:entryValues="@array/stop_detection_distance"
     android:persistent="true"
     android:key="@string/stop_detection_distance" />

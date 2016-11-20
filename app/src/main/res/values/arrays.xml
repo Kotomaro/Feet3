@@ -27,7 +27,7 @@
         <item>600000</item>
     </string-array>
 
-    <string-array name="stop_detection_distance">
+    <string-array name="stop_detection_distance_meters">
         <item>1 m</item>
         <item>5 m</item>
         <item>10 m</item>
@@ -36,5 +36,15 @@
         <item>30 m</item>
         <item>40 m</item>
         <item>50 m</item>
+    </string-array>
+    <string-array name="stop_detection_distance">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
     </string-array>
 </resources>
