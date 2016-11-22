@@ -51,6 +51,9 @@
             android:name=".EditNetworkActivity"
             android:theme="@style/Base.Theme.AppCompat.Dialog"/>
         <activity android:name=".Feet3Preferences"/>
+        <activity android:name=".EditPositionActivity"
+            android:theme="@style/Base.Theme.AppCompat.Dialog"/>
+        />
 
 
 

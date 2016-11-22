@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     protected void onPause(){
-        wifiManager.onPause();
-        fLocationManager.onPause();
+      //  wifiManager.onPause();
+       // fLocationManager.onPause();
       //  activityManager.onPause();
         super.onPause();
 

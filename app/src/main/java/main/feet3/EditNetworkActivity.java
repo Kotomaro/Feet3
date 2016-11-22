@@ -36,7 +36,7 @@ public class EditNetworkActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         final String name = b.getString("name");
         name_editText.setText(b.getString("name"));
-        System.out.println("name:" + b.getString("name"));
+
         mac_address_textView.setText(b.getString("mac_address"));
 
 
@@ -53,8 +53,6 @@ public class EditNetworkActivity extends AppCompatActivity {
                     finish();
 
 
-                }else{
-                    System.out.println("El nombre no ha cambiado o esta vacio");
                 }
             }
         });

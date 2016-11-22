@@ -96,6 +96,7 @@ public class Feet3WifiManager {
     }
 
     public boolean isScanFinished(){
+        System.out.println("scanfinished: "+ scanFinished);
         return scanFinished;
     }
 }

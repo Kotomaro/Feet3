@@ -111,11 +111,33 @@ public class PositionInfoActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
+
+        title_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditPositionActivity.class);
+                intent.putExtra("name", title_textView.getText().toString());
+                intent.putExtra("latitude", position.getLatitude());
+                intent.putExtra("longitude", position.getLongitude());
+
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
 
 
+    private void setTitle(){
+        if(position.getName() != null && !position.getName().equals("")
+                && !position.getName().equals("null")){
+            title_textView.setText(position.getName());
 
+        }else{
+            String title = position.getLatitude() + ", " + position.getLongitude();
+            title_textView.setText(title);
+        }
+    }
 
 
 
@@ -146,8 +168,7 @@ public class PositionInfoActivity extends AppCompatActivity {
         stops_history_listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        String title = position.getLatitude() + ", " + position.getLongitude();
-        title_textView.setText(title);
+        setTitle();
     }
 
 
@@ -177,7 +198,9 @@ public class PositionInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         populateNetworkList(date);
+        setTitle();
     };
 }
 

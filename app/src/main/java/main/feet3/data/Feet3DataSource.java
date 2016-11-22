@@ -297,9 +297,18 @@ public class Feet3DataSource {
 
         return p;
 
+    }
 
+    public void updatePositionName(String newName, double latitude, double longitude){
+        String sqlQuery;
 
-
+        sqlQuery = "update " + TABLE_POSITION
+                + " set " +POSITION_COLUMN_NAME + " = '" + newName + "'"
+                + " where " + POSITION_COLUMN_LATITUDE + " = " + latitude
+                + " and " + POSITION_COLUMN_LONGITUDE + " = " + longitude
+                + ";";
+        System.out.println("query sql: " + sqlQuery);
+        database.execSQL(sqlQuery);
     }
 
 
@@ -308,7 +317,7 @@ public class Feet3DataSource {
         String sqlQuery;
         Finding f = getFindingByDate(finding.getDate());
 
-        if(f.getDate() != null && f.getDevice() == finding.getDevice()){
+        if(f.getDate() != null ){
             //if there is a finding with the same date AND device, it already exists, update (don't do anything)
 
         }else {
@@ -494,7 +503,7 @@ public class Feet3DataSource {
                 + " where " + DEVICES_COLUMN_NAME + " = '" + name + "'"
                 + " and " + DEVICES_COLUMN_MAC_ADDRESS + " = '" + mac_address +"'"
                 + ";";
-        System.out.println("sqlquery del update: " + sqlQuery);
+
         database.execSQL(sqlQuery);
 
 
